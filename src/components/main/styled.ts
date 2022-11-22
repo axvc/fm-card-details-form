@@ -13,20 +13,11 @@ export const Background = styled.div<{ image: string }>`
   background-size: cover;
 `;
 
-export const FrontCard = styled.div<{ image: string }>`
-  position: absolute;
-  width: 447px;
-  height: 245px;
-  margin-left: 10%;
-  margin-top: 10%;
-  background: url(${(props) => props.image});
-`;
-
-export const BackCard = styled.div<{ image: string }>`
-  position: absolute;
-  width: 447px;
-  height: 245px;
-  margin-left: 15%;
-  margin-top: 25%;
-  background: url(${(props) => props.image});
+export const FormWrapper = styled.div`
+  margin-left: 483px;
+  width: calc(100vw - 483px);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;

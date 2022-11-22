@@ -5,7 +5,7 @@
 
 body {
   margin: 0;
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Space Grotesk", monospace;
   font-size: 18px;
   font-weight: 500;
   -webkit-font-smoothing: antialiased;
