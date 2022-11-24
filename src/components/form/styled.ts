@@ -11,7 +11,7 @@ export const Label = styled.span`
   color: ${Colors.VERY_DARK_VIOLET};
   text-transform: uppercase;
   letter-spacing: 2px;
-  font-size: 16px;
+  font-size: 12px;
   margin-top: 24px;
 `;
 
@@ -24,6 +24,32 @@ export const Field = styled.input`
   letter-spacing: 1px;
   font-size: 18px;
   margin-top: 8px;
+`;
+
+export const ExtraInfo = styled.div`
+  display: flex;
+  width: 100%;
+  gap: 20px;
+`;
+
+export const Expiration = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const Dates = styled.div`
+  display: flex;
+  gap: 10px;
+
+  input {
+    width: 50px;
+  }
+`;
+
+export const CVC = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 51%;
 `;
 
 export const Button = styled.button`

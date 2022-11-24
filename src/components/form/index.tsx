@@ -63,37 +63,45 @@ const Form: FC<Props> = ({
         onChange={handleChange}
         onBlur={() => handleCardNumber(values.cardNumber)}
       />
-      <ST.Label>Exp. date (mm/yy)</ST.Label>
-      <ST.Field
-        type="text"
-        id="expDateMM"
-        name="expDateMM"
-        placeholder={Placeholders.EXP_DATE_MM}
-        value={values.expDateMM}
-        onChange={handleChange}
-        onBlur={() => handleExpDateMM(values.expDateMM)}
-      />
-      <ST.Field
-        type="text"
-        id="expDateYY"
-        name="expDateYY"
-        placeholder={Placeholders.EXP_DATE_YY}
-        value={values.expDateYY}
-        onChange={handleChange}
-        onBlur={() => handleExpDateYY(values.expDateYY)}
-      />
-      <ST.Label>CVC</ST.Label>
-      <ST.Field
-        type="number"
-        max="999"
-        pattern="([0-9]|[0-9]|[0-9])"
-        id="cvc"
-        name="cvc"
-        placeholder={Placeholders.CVC}
-        value={values.cvc}
-        onChange={handleChange}
-        onBlur={() => handleCvc(values.cvc)}
-      />
+      <ST.ExtraInfo>
+        <ST.Expiration>
+          <ST.Label>Exp. date (mm/yy)</ST.Label>
+          <ST.Dates>
+            <ST.Field
+              type="text"
+              id="expDateMM"
+              name="expDateMM"
+              placeholder={Placeholders.EXP_DATE_MM}
+              value={values.expDateMM}
+              onChange={handleChange}
+              onBlur={() => handleExpDateMM(values.expDateMM)}
+            />
+            <ST.Field
+              type="text"
+              id="expDateYY"
+              name="expDateYY"
+              placeholder={Placeholders.EXP_DATE_YY}
+              value={values.expDateYY}
+              onChange={handleChange}
+              onBlur={() => handleExpDateYY(values.expDateYY)}
+            />
+          </ST.Dates>
+        </ST.Expiration>
+        <ST.CVC>
+          <ST.Label>CVC</ST.Label>
+          <ST.Field
+            type="number"
+            max="999"
+            pattern="([0-9]|[0-9]|[0-9])"
+            id="cvc"
+            name="cvc"
+            placeholder={Placeholders.CVC}
+            value={values.cvc}
+            onChange={handleChange}
+            onBlur={() => handleCvc(values.cvc)}
+          />
+        </ST.CVC>
+      </ST.ExtraInfo>
       <ST.Button type="submit" onSubmit={() => handleSubmit()}>
         Confirm
       </ST.Button>
