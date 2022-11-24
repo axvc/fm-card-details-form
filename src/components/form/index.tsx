@@ -2,7 +2,9 @@ import React, { Dispatch, FC, SetStateAction } from 'react';
 import * as ST from './styled';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import valid from 'card-validator';
 import { Placeholders } from 'constants/Placeholders';
+import { Messages } from 'constants/Messages';
 
 interface Props {
   handleCardNumber: Dispatch<SetStateAction<string>>;
@@ -30,13 +32,40 @@ const Form: FC<Props> = ({
       },
       validationSchema: Yup.object().shape({
         cardNumber: Yup.string()
-          .required('Card number required')
-          .matches(/^[0-9]*$/i, 'Use numbers'),
+          .test(
+            'test-number',
+            Messages.INVALID_CARD_NUMBER,
+            (value) => valid.number(value).isValid,
+          )
+          .required(Messages.REQUIRED_CARD_NUMBER),
         cardholderName: Yup.string()
-          .required('Cardholder name required')
-          .matches(/^[a-z]*$/i, 'Use latin'),
-        expDate: Yup.string().required('Укажите имя.'),
-        cvc: Yup.string().required('CVV required'),
+          .test(
+            'test-name',
+            Messages.INVALID_CARDHOLDER_NAME,
+            (value) => valid.cardholderName(value).isValid,
+          )
+          .required(Messages.REQUIRED_CARDHOLDER_NAME),
+        expDateMM: Yup.string()
+          .test(
+            'test-month',
+            Messages.INVALID_EXPIRATION_DATE,
+            (value) => valid.expirationMonth(value).isValid,
+          )
+          .required(Messages.REQUIRED_EXPIRATION_DATE),
+        expDateYY: Yup.string()
+          .test(
+            'test-year',
+            Messages.INVALID_EXPIRATION_DATE,
+            (value) => valid.expirationYear(value).isValid,
+          )
+          .required(Messages.REQUIRED_EXPIRATION_DATE),
+        cvc: Yup.string()
+          .test(
+            'test-cvc',
+            Messages.INVALID_CVC,
+            (value) => valid.cvv(value).isValid,
+          )
+          .required(Messages.REQUIRED_CVC),
       }),
       onSubmit: (values) => {},
     });
@@ -51,8 +80,12 @@ const Form: FC<Props> = ({
         placeholder={Placeholders.CARDHOLDER_NAME}
         value={values.cardholderName}
         onChange={handleChange}
-        onBlur={() => handleCardholderName(values.cardholderName)}
+        onBlur={() =>
+          !(touched.cardholderName && errors.cardholderName) &&
+          handleCardholderName(values.cardholderName)
+        }
       />
+      {touched.cardholderName && errors.cardholderName}
       <ST.Label>Card number</ST.Label>
       <ST.Field
         type="text"
@@ -61,8 +94,12 @@ const Form: FC<Props> = ({
         placeholder={Placeholders.CARD_NUMBER}
         value={values.cardNumber}
         onChange={handleChange}
-        onBlur={() => handleCardNumber(values.cardNumber)}
+        onBlur={() =>
+          !(touched.cardNumber && errors.cardNumber) &&
+          handleCardNumber(values.cardNumber)
+        }
       />
+      {touched.cardNumber && errors.cardNumber}
       <ST.ExtraInfo>
         <ST.Expiration>
           <ST.Label>Exp. date (mm/yy)</ST.Label>
@@ -74,7 +111,10 @@ const Form: FC<Props> = ({
               placeholder={Placeholders.EXP_DATE_MM}
               value={values.expDateMM}
               onChange={handleChange}
-              onBlur={() => handleExpDateMM(values.expDateMM)}
+              onBlur={() =>
+                !(touched.expDateMM && errors.expDateMM) &&
+                handleExpDateMM(values.expDateMM)
+              }
             />
             <ST.Field
               type="text"
@@ -83,9 +123,14 @@ const Form: FC<Props> = ({
               placeholder={Placeholders.EXP_DATE_YY}
               value={values.expDateYY}
               onChange={handleChange}
-              onBlur={() => handleExpDateYY(values.expDateYY)}
+              onBlur={() =>
+                !(touched.expDateYY && errors.expDateYY) &&
+                handleExpDateYY(values.expDateYY)
+              }
             />
           </ST.Dates>
+          {(touched.expDateMM || touched.expDateYY) &&
+            (errors.expDateMM || errors.expDateYY)}
         </ST.Expiration>
         <ST.CVC>
           <ST.Label>CVC</ST.Label>
@@ -98,11 +143,12 @@ const Form: FC<Props> = ({
             placeholder={Placeholders.CVC}
             value={values.cvc}
             onChange={handleChange}
-            onBlur={() => handleCvc(values.cvc)}
+            onBlur={() => !(touched.cvc && errors.cvc) && handleCvc(values.cvc)}
           />
         </ST.CVC>
+        {touched.cvc && errors.cvc}
       </ST.ExtraInfo>
-      <ST.Button type="submit" onSubmit={() => handleSubmit()}>
+      <ST.Button type="button" onClick={() => handleSubmit()}>
         Confirm
       </ST.Button>
     </ST.Form>

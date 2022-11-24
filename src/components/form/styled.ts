@@ -24,6 +24,11 @@ export const Field = styled.input`
   letter-spacing: 1px;
   font-size: 18px;
   margin-top: 8px;
+  transition: 0.2s linear;
+
+  &:focus {
+    border: 1px solid ${Colors.DARK_GRAYISH_VIOLET};
+  }
 `;
 
 export const ExtraInfo = styled.div`
@@ -60,4 +65,5 @@ export const Button = styled.button`
   border-radius: 8px;
   margin-top: 40px;
   font-size: 18px;
+  cursor: pointer;
 `;
