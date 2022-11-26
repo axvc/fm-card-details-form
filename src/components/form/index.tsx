@@ -5,6 +5,24 @@ import * as Yup from 'yup';
 import valid from 'card-validator';
 import { Placeholders } from 'constants/Placeholders';
 import { Messages } from 'constants/Messages';
+import { Masks } from 'constants/Masks';
+import CustomMaskedInput from 'components/ui/masked-input';
+
+enum Fields {
+  cardNumber = 'cardNumber',
+  cardholderName = 'cardholderName',
+  expDateMM = 'expDateMM',
+  expDateYY = 'expDateYY',
+  cvc = 'cvc',
+}
+
+enum Tests {
+  number = 'test-number',
+  name = 'test-name',
+  month = 'test-month',
+  year = 'test-year',
+  cvc = 'test-cvc',
+}
 
 interface Props {
   handleCardNumber: Dispatch<SetStateAction<string>>;
@@ -21,132 +39,141 @@ const Form: FC<Props> = ({
   handleExpDateYY,
   handleCvc,
 }) => {
-  const { handleSubmit, handleBlur, values, errors, touched, handleChange } =
-    useFormik({
-      initialValues: {
-        cardNumber: '',
-        cardholderName: '',
-        expDateMM: '',
-        expDateYY: '',
-        cvc: '',
-      },
-      validationSchema: Yup.object().shape({
-        cardNumber: Yup.string()
-          .test(
-            'test-number',
-            Messages.INVALID_CARD_NUMBER,
-            (value) => valid.number(value).isValid,
-          )
-          .required(Messages.REQUIRED_CARD_NUMBER),
-        cardholderName: Yup.string()
-          .test(
-            'test-name',
-            Messages.INVALID_CARDHOLDER_NAME,
-            (value) => valid.cardholderName(value).isValid,
-          )
-          .required(Messages.REQUIRED_CARDHOLDER_NAME),
-        expDateMM: Yup.string()
-          .test(
-            'test-month',
-            Messages.INVALID_EXPIRATION_DATE,
-            (value) => valid.expirationMonth(value).isValid,
-          )
-          .required(Messages.REQUIRED_EXPIRATION_DATE),
-        expDateYY: Yup.string()
-          .test(
-            'test-year',
-            Messages.INVALID_EXPIRATION_DATE,
-            (value) => valid.expirationYear(value).isValid,
-          )
-          .required(Messages.REQUIRED_EXPIRATION_DATE),
-        cvc: Yup.string()
-          .test(
-            'test-cvc',
-            Messages.INVALID_CVC,
-            (value) => valid.cvv(value).isValid,
-          )
-          .required(Messages.REQUIRED_CVC),
-      }),
-      onSubmit: (values) => {},
-    });
+  const {
+    handleSubmit,
+    handleBlur,
+    values,
+    errors,
+    touched,
+    handleChange,
+    validateField,
+  } = useFormik({
+    initialValues: {
+      cardNumber: '',
+      cardholderName: '',
+      expDateMM: '',
+      expDateYY: '',
+      cvc: '',
+    },
+    validationSchema: Yup.object().shape({
+      cardNumber: Yup.string().test(
+        Tests.number,
+        Messages.INVALID_CARD_NUMBER,
+        (value) => valid.number(value).isValid,
+      ),
+      cardholderName: Yup.string().test(
+        Tests.name,
+        Messages.INVALID_CARDHOLDER_NAME,
+        (value) => valid.cardholderName(value).isValid,
+      ),
+      expDateMM: Yup.string().test(
+        Tests.month,
+        Messages.INVALID_EXPIRATION_DATE,
+        (value) => valid.expirationMonth(value).isValid,
+      ),
+      expDateYY: Yup.string().test(
+        Tests.year,
+        Messages.INVALID_EXPIRATION_DATE,
+        (value) => valid.expirationYear(value).isValid,
+      ),
+      cvc: Yup.string().test(
+        Tests.cvc,
+        Messages.INVALID_CVC,
+        (value) => valid.cvv(value).isValid,
+      ),
+    }),
+    onSubmit: (values) => {},
+  });
+
+  const onBlur = (
+    e: React.FocusEvent<HTMLInputElement, Element>,
+    id: Fields,
+    valueHandler: Dispatch<SetStateAction<string>>,
+  ) => {
+    handleBlur(e);
+    validateField(id).then();
+    !errors[id] && valueHandler(values[id]);
+  };
 
   return (
     <ST.Form>
       <ST.Label>Cardholder name</ST.Label>
-      <ST.Field
-        type="text"
-        id="cardholderName"
-        name="cardholderName"
-        placeholder={Placeholders.CARDHOLDER_NAME}
-        value={values.cardholderName}
-        onChange={handleChange}
-        onBlur={() =>
-          !(touched.cardholderName && errors.cardholderName) &&
-          handleCardholderName(values.cardholderName)
-        }
-      />
-      {touched.cardholderName && errors.cardholderName}
+      <ST.FieldWrapper error={!!(touched.cardNumber && errors.cardNumber)}>
+        <input
+          type="text"
+          id={Fields.cardholderName}
+          name={Fields.cardholderName}
+          placeholder={Placeholders.CARDHOLDER_NAME}
+          value={values.cardholderName}
+          onChange={handleChange}
+          onBlur={(e) => onBlur(e, Fields.cardholderName, handleCardholderName)}
+        />
+      </ST.FieldWrapper>
+      <ST.ErrorMessage>
+        {touched.cardholderName && errors.cardholderName}
+      </ST.ErrorMessage>
       <ST.Label>Card number</ST.Label>
-      <ST.Field
-        type="text"
-        id="cardNumber"
-        name="cardNumber"
-        placeholder={Placeholders.CARD_NUMBER}
-        value={values.cardNumber}
-        onChange={handleChange}
-        onBlur={() =>
-          !(touched.cardNumber && errors.cardNumber) &&
-          handleCardNumber(values.cardNumber)
-        }
-      />
-      {touched.cardNumber && errors.cardNumber}
+      <ST.FieldWrapper error={!!(touched.cardNumber && errors.cardNumber)}>
+        <CustomMaskedInput
+          mask={Masks.CARD_NUMBER}
+          id={Fields.cardNumber}
+          name={Fields.cardNumber}
+          placeholder={Placeholders.CARD_NUMBER}
+          value={values.cardNumber}
+          onChange={handleChange}
+          onBlur={(e) => onBlur(e, Fields.cardNumber, handleCardNumber)}
+        />
+      </ST.FieldWrapper>
+      <ST.ErrorMessage>
+        {touched.cardNumber && errors.cardNumber}
+      </ST.ErrorMessage>
       <ST.ExtraInfo>
         <ST.Expiration>
           <ST.Label>Exp. date (mm/yy)</ST.Label>
           <ST.Dates>
-            <ST.Field
-              type="text"
-              id="expDateMM"
-              name="expDateMM"
-              placeholder={Placeholders.EXP_DATE_MM}
-              value={values.expDateMM}
-              onChange={handleChange}
-              onBlur={() =>
-                !(touched.expDateMM && errors.expDateMM) &&
-                handleExpDateMM(values.expDateMM)
-              }
-            />
-            <ST.Field
-              type="text"
-              id="expDateYY"
-              name="expDateYY"
-              placeholder={Placeholders.EXP_DATE_YY}
-              value={values.expDateYY}
-              onChange={handleChange}
-              onBlur={() =>
-                !(touched.expDateYY && errors.expDateYY) &&
-                handleExpDateYY(values.expDateYY)
-              }
-            />
+            <ST.FieldWrapper error={!!(touched.expDateMM && errors.expDateMM)}>
+              <CustomMaskedInput
+                mask={Masks.DATE}
+                id={Fields.expDateMM}
+                name={Fields.expDateMM}
+                placeholder={Placeholders.EXP_DATE_MM}
+                value={values.expDateMM}
+                onChange={handleChange}
+                onBlur={(e) => onBlur(e, Fields.expDateMM, handleExpDateMM)}
+              />
+            </ST.FieldWrapper>
+            <ST.FieldWrapper error={!!(touched.expDateYY && errors.expDateYY)}>
+              <CustomMaskedInput
+                mask={Masks.DATE}
+                id={Fields.expDateYY}
+                name={Fields.expDateYY}
+                placeholder={Placeholders.EXP_DATE_YY}
+                value={values.expDateYY}
+                onChange={handleChange}
+                onBlur={(e) => onBlur(e, Fields.expDateYY, handleExpDateYY)}
+              />
+            </ST.FieldWrapper>
           </ST.Dates>
-          {(touched.expDateMM || touched.expDateYY) &&
-            (errors.expDateMM || errors.expDateYY)}
+          <ST.ErrorMessage>
+            {(touched.expDateMM || touched.expDateYY) &&
+              (errors.expDateMM || errors.expDateYY)}
+          </ST.ErrorMessage>
         </ST.Expiration>
         <ST.CVC>
           <ST.Label>CVC</ST.Label>
-          <ST.Field
-            type="number"
-            max="999"
-            pattern="([0-9]|[0-9]|[0-9])"
-            id="cvc"
-            name="cvc"
-            placeholder={Placeholders.CVC}
-            value={values.cvc}
-            onChange={handleChange}
-            onBlur={() => !(touched.cvc && errors.cvc) && handleCvc(values.cvc)}
-          />
+          <ST.FieldWrapper error={!!(touched.cvc && errors.cvc)}>
+            <CustomMaskedInput
+              mask={Masks.CVC}
+              id={Fields.cvc}
+              name={Fields.cvc}
+              placeholder={Placeholders.CVC}
+              value={values.cvc}
+              onChange={handleChange}
+              onBlur={(e) => onBlur(e, Fields.cvc, handleCvc)}
+            />
+          </ST.FieldWrapper>
+          <ST.ErrorMessage>{touched.cvc && errors.cvc}</ST.ErrorMessage>
         </ST.CVC>
-        {touched.cvc && errors.cvc}
       </ST.ExtraInfo>
       <ST.Button type="button" onClick={() => handleSubmit()}>
         Confirm

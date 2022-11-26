@@ -12,7 +12,34 @@ export const Label = styled.span`
   text-transform: uppercase;
   letter-spacing: 2px;
   font-size: 12px;
-  margin-top: 24px;
+  font-weight: 600;
+  margin-top: 20px;
+`;
+
+export const FieldWrapper = styled.div<{ error: boolean }>`
+  display: flex;
+
+  input {
+    border: 1px solid
+      ${(props) => (props.error ? Colors.RED : Colors.LIGHT_GRAYISH_VIOLET)};
+    border-radius: 10px;
+    padding: 8px 16px;
+    outline: none;
+    font-family: 'Space Grotesk', monospace;
+    font-size: 18px;
+    margin-top: 8px;
+    transition: 0.2s linear;
+    width: 100%;
+    font-weight: 600;
+
+    ::placeholder {
+      color: ${Colors.LIGHT_GRAYISH_VIOLET};
+    }
+
+    &:focus {
+      border: 1px solid ${Colors.DARK_GRAYISH_VIOLET};
+    }
+  }
 `;
 
 export const Field = styled.input`
@@ -55,6 +82,14 @@ export const CVC = styled.div`
   display: flex;
   flex-direction: column;
   width: 51%;
+`;
+
+export const ErrorMessage = styled.span`
+  color: ${Colors.RED};
+  font-size: 12px;
+  font-weight: 600;
+  margin-top: 4px;
+  margin-left: 2px;
 `;
 
 export const Button = styled.button`
