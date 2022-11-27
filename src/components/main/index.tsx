@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import * as ST from './styled';
 import Background from 'assets/images/bg-main-desktop.png';
+import BackgroundMobile from 'assets/images/bg-main-mobile.png';
 import FrontCard from 'components/front-card';
 import BackCard from 'components/back-card';
 import Form from 'components/form';
@@ -19,7 +20,7 @@ const App = () => {
 
   return (
     <ST.App className="App">
-      <ST.Background image={Background} />
+      <ST.Background image={Background} imageMobile={BackgroundMobile} />
       <ST.Cards>
         <FrontCard
           cardNumber={cardNumber}
@@ -29,7 +30,7 @@ const App = () => {
         />
         <BackCard cvc={cvc} />
       </ST.Cards>
-      <ST.FormWrapper>
+      <ST.FormWrapper success={success}>
         {success ? (
           <Success />
         ) : (

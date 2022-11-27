@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { Colors } from 'constants/Colors';
+import { Widths } from 'constants/Widths';
 
 export const Success = styled.div`
   display: flex;
@@ -8,6 +9,10 @@ export const Success = styled.div`
   flex-direction: column;
   width: 400px;
   animation: fade-in 0.3s linear;
+
+  @media (max-width: ${Widths.DESKTOP}) {
+    width: 90%;
+  }
 `;
 
 export const Title = styled.span`

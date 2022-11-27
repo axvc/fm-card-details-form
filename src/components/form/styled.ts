@@ -1,11 +1,17 @@
 import styled from 'styled-components';
 import { Colors } from 'constants/Colors';
+import { Widths } from 'constants/Widths';
 
 export const Form = styled.form`
   display: flex;
   flex-direction: column;
   width: 400px;
   animation: fade-in 0.3s linear;
+
+  @media (max-width: ${Widths.DESKTOP}) {
+    width: 90%;
+    margin-top: 6%;
+  }
 `;
 
 export const Label = styled.span`
