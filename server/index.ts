@@ -7,7 +7,10 @@ const mount = require('koa-mount');
 const app = new Koa();
 
 const static_pages = new Koa();
-static_pages.use(serve(path.resolve(__dirname, '../build')));
+static_pages.use(
+  serve(path.resolve(__dirname, '../build')),
+  serve(path.resolve(__dirname, '../public')),
+);
 app.use(mount('/', static_pages));
 
 const PORT = process.env.PORT || 3001;
