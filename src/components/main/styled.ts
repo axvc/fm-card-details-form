@@ -13,6 +13,13 @@ export const Background = styled.div<{ image: string }>`
   background-size: cover;
 `;
 
+export const Cards = styled.div`
+  position: absolute;
+  height: 100%;
+  width: 35%;
+  left: 10%;
+`;
+
 export const FormWrapper = styled.div`
   margin-left: 483px;
   width: calc(100vw - 483px);

@@ -20,13 +20,15 @@ const App = () => {
   return (
     <ST.App className="App">
       <ST.Background image={Background} />
-      <FrontCard
-        cardNumber={cardNumber}
-        cardholderName={cardholderName}
-        expDateMM={expDateMM}
-        expDateYY={expDateYY}
-      />
-      <BackCard cvc={cvc} />
+      <ST.Cards>
+        <FrontCard
+          cardNumber={cardNumber}
+          cardholderName={cardholderName}
+          expDateMM={expDateMM}
+          expDateYY={expDateYY}
+        />
+        <BackCard cvc={cvc} />
+      </ST.Cards>
       <ST.FormWrapper>
         {success ? (
           <Success />
