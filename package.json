@@ -13,6 +13,9 @@
     "@types/styled-components": "^5.1.26",
     "card-validator": "^8.1.1",
     "formik": "^2.2.9",
+    "koa": "^2.13.4",
+    "koa-mount": "^4.0.0",
+    "koa-static": "^5.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-input-mask": "^3.0.0-alpha.2",
@@ -25,6 +28,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "serve": "cd server && node index.ts",
+    "prod": "npm install && npm run build && npm run serve",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
