@@ -5,14 +5,16 @@ export const Form = styled.form`
   display: flex;
   flex-direction: column;
   width: 400px;
+  animation: fade-in 0.3s linear;
 `;
 
 export const Label = styled.span`
   color: ${Colors.VERY_DARK_VIOLET};
+  font-family: 'Space Grotesk', monospace;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 2px;
   font-size: 12px;
-  font-weight: 600;
   margin-top: 20px;
 `;
 
@@ -25,12 +27,12 @@ export const FieldWrapper = styled.div<{ error: boolean }>`
     border-radius: 10px;
     padding: 8px 16px;
     outline: none;
-    font-family: 'Space Grotesk', monospace;
+    font-family: 'Space Grotesk Medium', monospace;
     font-size: 18px;
     margin-top: 8px;
     transition: 0.2s linear;
     width: 100%;
-    font-weight: 600;
+    font-weight: 500;
 
     ::placeholder {
       color: ${Colors.LIGHT_GRAYISH_VIOLET};
@@ -90,15 +92,4 @@ export const ErrorMessage = styled.span`
   font-weight: 600;
   margin-top: 4px;
   margin-left: 2px;
-`;
-
-export const Button = styled.button`
-  font-family: 'Space Grotesk', monospace;
-  padding: 10px;
-  color: ${Colors.WHITE};
-  background: ${Colors.VERY_DARK_VIOLET};
-  border-radius: 8px;
-  margin-top: 40px;
-  font-size: 18px;
-  cursor: pointer;
 `;

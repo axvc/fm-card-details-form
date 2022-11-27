@@ -21,3 +21,22 @@ export const FormWrapper = styled.div`
   align-items: center;
   justify-content: center;
 `;
+
+export const Attribution = styled.div`
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  font-size: 12px;
+`;
+
+export const AttributionRow = styled.p`
+  margin: 0;
+`;
+
+export const Link = styled.a`
+  text-decoration: none;
+`;

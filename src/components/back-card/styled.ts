@@ -10,6 +10,7 @@ export const BackCard = styled.div<{ image: string }>`
   background: url(${(props) => props.image});
   color: ${Colors.WHITE};
   letter-spacing: 2px;
+  animation: fade-in 0.3s linear;
 `;
 
 export const CVV = styled.span`

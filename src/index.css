@@ -3,9 +3,23 @@
   src: url('./assets/fonts/SpaceGrotesk.ttf')
 }
 
+@font-face {
+  font-family: "Space Grotesk Medium";
+  src: url('./assets/fonts/SpaceGrotesk-Medium.ttf')
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 body {
   margin: 0;
-  font-family: "Space Grotesk", monospace;
+  font-family: "Space Grotesk Medium", monospace;
   font-size: 18px;
   font-weight: 500;
   -webkit-font-smoothing: antialiased;

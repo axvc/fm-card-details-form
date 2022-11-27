@@ -7,6 +7,7 @@ import { Placeholders } from 'constants/Placeholders';
 import { Messages } from 'constants/Messages';
 import { Masks } from 'constants/Masks';
 import CustomMaskedInput from 'components/ui/masked-input';
+import Button from 'components/ui/button';
 
 enum Fields {
   cardNumber = 'cardNumber',
@@ -30,6 +31,7 @@ interface Props {
   handleExpDateMM: Dispatch<SetStateAction<string>>;
   handleExpDateYY: Dispatch<SetStateAction<string>>;
   handleCvc: Dispatch<SetStateAction<string>>;
+  handleSuccess: Dispatch<SetStateAction<boolean>>;
 }
 
 const Form: FC<Props> = ({
@@ -38,6 +40,7 @@ const Form: FC<Props> = ({
   handleExpDateMM,
   handleExpDateYY,
   handleCvc,
+  handleSuccess,
 }) => {
   const {
     handleSubmit,
@@ -47,6 +50,7 @@ const Form: FC<Props> = ({
     touched,
     handleChange,
     validateField,
+    isValid,
   } = useFormik({
     initialValues: {
       cardNumber: '',
@@ -82,11 +86,13 @@ const Form: FC<Props> = ({
         (value) => valid.cvv(value).isValid,
       ),
     }),
-    onSubmit: (values) => {},
+    onSubmit: () => {
+      handleSuccess(isValid);
+    },
   });
 
   const onBlur = (
-    e: React.FocusEvent<HTMLInputElement, Element>,
+    e: React.FocusEvent<HTMLInputElement>,
     id: Fields,
     valueHandler: Dispatch<SetStateAction<string>>,
   ) => {
@@ -98,7 +104,9 @@ const Form: FC<Props> = ({
   return (
     <ST.Form>
       <ST.Label>Cardholder name</ST.Label>
-      <ST.FieldWrapper error={!!(touched.cardNumber && errors.cardNumber)}>
+      <ST.FieldWrapper
+        error={!!(touched.cardholderName && errors.cardholderName)}
+      >
         <input
           type="text"
           id={Fields.cardholderName}
@@ -175,9 +183,7 @@ const Form: FC<Props> = ({
           <ST.ErrorMessage>{touched.cvc && errors.cvc}</ST.ErrorMessage>
         </ST.CVC>
       </ST.ExtraInfo>
-      <ST.Button type="button" onClick={() => handleSubmit()}>
-        Confirm
-      </ST.Button>
+      <Button onClick={() => handleSubmit()} label="Confirm" />
     </ST.Form>
   );
 };

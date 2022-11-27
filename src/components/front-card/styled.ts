@@ -12,13 +12,16 @@ export const FrontCard = styled.div<{ image: string }>`
   letter-spacing: 2px;
   display: flex;
   flex-direction: column;
+  animation: fade-in 0.3s linear;
+  font-family: 'Space Grotesk', monospace;
 `;
 
 export const CardNumber = styled.span`
   margin-top: 130px;
   margin-left: 30px;
-  font-size: 32px;
+  font-size: 30px;
   width: 100%;
+  letter-spacing: 2.5px;
 `;
 
 export const SecondInfoRow = styled.div`
